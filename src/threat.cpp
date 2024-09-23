@@ -14,7 +14,7 @@ namespace mess2_algorithms
         const int64_t n_elem = x_mesh.n_elem;
 
         std::vector<double> threat;
-        threat.resize(n_elem);
+        threat.reserve(n_elem);
 
         arma::mat matrix = arma::mat(n_rows, n_cols, arma::fill::zeros);
 
