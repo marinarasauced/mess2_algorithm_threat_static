@@ -46,4 +46,38 @@ namespace mess2_algorithms
         return threat;
     }
 
+    void save_threat_static(const std::vector<double>& threat, const arma::mat& x_mesh, const arma::mat& y_mesh, const std::string& path_file)
+    {
+        if (x_mesh.n_elem != y_mesh.n_elem || x_mesh.n_elem != threat.size()) {
+            throw std::invalid_argument("x_mesh, y_mesh, and threat must have the same number of elements");
+        }
+
+        std::string path_new;
+        if (!path_file.empty() && path_file[0] == '~') {
+            const char* home = getenv("HOME");
+            if (home) {
+                path_new = std::string(home) + path_file.substr(1);
+            } else {
+                throw std::runtime_error("could not determine the home directory");
+            }
+        }
+
+        std::ofstream file(path_new);
+        if (!file.is_open()) {
+            throw std::runtime_error("could not open file for writing");
+        }
+
+        const int64_t n_rows = x_mesh.n_rows;
+        const int64_t n_cols = x_mesh.n_cols;
+
+        for (int64_t iter = 0; iter < n_rows; ++iter) {
+            for (int64_t jter = 0; jter < n_cols; ++jter) {
+                int64_t index = iter * n_cols + jter;
+                file << x_mesh(iter, jter) << "," << y_mesh(iter, jter) << "," << threat[index] << "\n";
+            }
+        }
+
+        file.close();
+    }
+
 } // namespace mess2_algorithms
