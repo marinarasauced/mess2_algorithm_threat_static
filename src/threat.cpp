@@ -70,6 +70,7 @@ namespace mess2_algorithms
         const int64_t n_rows = x_mesh.n_rows;
         const int64_t n_cols = x_mesh.n_cols;
 
+        file << "x" << "," << "y" << "," << "threat" << "\n";
         for (int64_t iter = 0; iter < n_rows; ++iter) {
             for (int64_t jter = 0; jter < n_cols; ++jter) {
                 int64_t index = iter * n_cols + jter;
